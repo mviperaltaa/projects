@@ -1,0 +1,202 @@
+<style>
+  input {
+    border: solid 1px orange
+  }
+
+  button:disabled {
+    /* outline:white; */
+    color: gray;
+    border: 2px solid gray;
+    /* position: absolute; */
+    bottom: 20px;
+    left: 20%;
+  }
+
+  button {
+    /* outline:white; */
+    border: 2px solid white;
+    /* position: absolute; */
+    bottom: 20px;
+    left: 20%;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+    margin: 2em;
+  }
+
+  .content {
+    flex: 4;
+    margin-left: 4em;
+    margin-right: 4em;
+    margin-top: 0px;
+    max-width: 800px;
+  }
+
+  .tests {
+    flex: 1;
+  }
+
+  #resultsContainer {
+    position: fixed;
+    top: 20%
+  }
+
+  #results {
+    border-left: 3px solid white;
+    padding-left: 5px;
+  }
+
+  .pass {
+    background-color: green
+  }
+
+  .fail {
+    background-color: red
+  }
+
+  .example {
+    padding: 5px;
+    border: 1px solid white
+  }
+</style>
+<div class="row">
+  <div class="column content">
+    <h1>2-2: Loops</h1>
+    <h2>Loops and Iteration</h2>
+    <p>One of the most important topics that distinguishes programming from graphic
+      design is dealing with unknowns -- you don't know ahead of time how many elements
+      will be returned from the server, or how many photos will be on a given page.</p>
+    <p>Iteration is the concept that you can have the same code operate repeatedly on some set of elements, or perform
+      the same operation a number of times with slightly different targets or parameters.</p>
+    <p>One of the first examples in the book is simply printing out a number of statements, first by writing them out by
+      hand, then using a loop to create the same results.</p>
+    <p>Let's do this with HTML elements as we will soon be using JavaScript to work more with the separation of content
+      from structure and style.</p>
+    <div class="example" id="example1">
+    </div>
+    <button onclick="callAddParagraphs(1)">Add Paragraphs</button><input type="text" id="numParagraphs1"></input>
+    <div class="example" id="example2">
+    </div>
+    <button onclick="callAddParagraphs(2)">Add Paragraphs</button><input type="text" id="numParagraphs2"></input>
+    <div class="instructions">
+      <h2>Exercise Instructions</h2>
+      <p>In order to move to the next step, you should resolve each of the tests on the right panel. </p>
+      <p>You do so by modifying the <a href="swing:script.js">script.js</a> file</p>
+      <h3>2-2.1: Creating Paragraphs</h3>
+      <p>Create a function, "createPars" that takes three arguments:
+      <ul>
+
+        <li>
+          <b>parNumber</b>: The first is the number of paragraph elements to create
+        </li>
+        <li>
+          <b>parent</b>: The second is element to add the elements to.
+        </li>
+        <li>
+          <b>stepSize</b>: The third is a number that each element will iterate by. Create that
+          many paragraphs, add them to the parent element. Starting at 0, add the text
+          Paragraph # to each paragraph.
+        </li>
+      </ul>
+      </p>
+      <p>Hints:</p>
+      <p>You will need to use the function <a
+          href="https://www.javascripttutorial.net/javascript-dom/javascript-appendchild/">appendChild</a>, or you will
+        create the element using HTML (as in the example from </p>
+
+    </div>
+  </div>
+  <div class="column tests">
+    <div id="resultsContainer">
+      <p id="results"></p>
+      <button id="checkExercise" disabled onclick="nextStep()">Next Step</button>
+    </div>
+  </div>
+</div>
+<!-- <button id="nextExercise" onclick="prevStep()">Previous Step</button> -->
+<script>
+  let currentStep = 0
+  let numPass = 0
+  function navigateTutorial(step) {
+    postMessage({
+      command: 'navigateTutorial',
+      value: step
+    }, '*');
+  }
+  function prevStep() {
+    if (numPass === window.config.length) {
+      navigateTutorial(currentStep + 1)
+    }
+  }
+  function nextStep() {
+    if (numPass === window.config.length) {
+      navigateTutorial(currentStep + 1)
+    }
+  }
+  function checkExercise() {
+    let exercise = window.config
+    results = "<tr><th>ID</th><th>Test</th><th>Result</th></tr>"
+    numPass = exercise.length
+    for (var target of exercise) {
+      let pass = true
+      if (target.testType == "type" && this[target.variable] !== undefined) {
+        pass = (typeof this[target.variable] === target.type)
+      } else if (target.testType == "regex" && typeof this[target.variable] === "string") {
+        pass = target.test.test(this[target.variable])
+      } else if (target.testType == "elements" && this[target.variable] !== undefined) {
+        for (let test of target.tests) {
+          let testElem = document.createElement("div")
+          this[target.variable](test.op1, testElem, test.op3)
+          console.log(testElem.innerHTML)
+          console.log(testElem.childElementCount)
+          console.log(test.result)
+          pass = pass && (testElem.childElementCount === test.op1) && testElem.innerHTML == test.result
+        }
+      } else if (target.testType == "compare") {
+        if (this[target.variable] !== undefined) {
+          for (let test of target.tests) {
+            let resultMine
+            let resultTheirs
+            switch (target.operator) {
+              case "+":
+                resultMine = test.operandLeft + test.operandRight
+                resultTheirs = this[target.variable](test.operandLeft, test.operandRight)
+                pass = pass && resultMine === resultTheirs
+                break
+              case "*":
+                resultMine = test.operandLeft * test.operandRight
+                resultTheirs = this[target.variable](test.operandLeft, test.operandRight)
+                pass = pass && resultMine === resultTheirs
+                break
+              case "<?:":
+                resultMine = test.operand1 < test.operand2 ? test.operand3 : test.operand4
+                resultTheirs = this[target.variable](test.operand1, test.operand2, test.operand3, test.operand4)
+                pass = pass && resultMine === resultTheirs
+                break
+            }
+          }
+        } else {
+          pass = false
+        }
+      } else {
+        pass = false
+      }
+      results += `<tr><td>${target.id}</td><td>${target.variable}</td><td class="${pass ? 'pass' : 'fail'}"''>${pass ? "Pass" : "Fail"}</td></tr>\n`
+      numPass -= !pass ? 1 : 0
+    }
+    results += `<tr><td colspan="2">Total: ${numPass} / ${exercise.length}</td></tr>`
+
+    document.getElementById("results").innerHTML = `<table>${results}</table>`
+    // console.log(numPass == exercise.length)
+    document.getElementById("checkExercise").disabled = numPass !== exercise.length
+    if (numPass === exercise.length) {
+      document.getElementById("checkExercise").classList.add("pass")
+    }
+  }
+  setTimeout(() => checkExercise(), 500)
+</script>

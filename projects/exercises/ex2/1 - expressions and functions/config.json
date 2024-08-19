@@ -1,0 +1,71 @@
+[
+  {
+    "id": "2-1.1",
+    "variable": "sum1",
+    "operator": "+",
+    "tests": [
+      {
+        "operandLeft": 10,
+        "operandRight": 20
+      },
+      {
+        "operandLeft": -100,
+        "operandRight": 40
+      },
+      {
+        "operandLeft": -11103,
+        "operandRight": 1111140
+      }
+    ],
+    "testType": "compare"
+  },
+  {
+    "id": "2-1.2",
+    "variable": "product1",
+    "operator": "*",
+    "tests": [
+      {
+        "operandLeft": 10,
+        "operandRight": 20
+      },
+      {
+        "operandLeft": -100,
+        "operandRight": 40
+      },
+      {
+        "operandLeft": -11103,
+        "operandRight": 1111140
+      }
+    ],
+    "testType": "compare"
+  },
+  {
+    "id": "2-1.3",
+    "variable": "compareAndReturn",
+    "operator": "<?:",
+    "tests": [
+      {
+        "operand1": 10,
+        "operand2": -10,
+        "operand3": "A",
+        "operand4": "B",
+        "result": "B"
+      },
+      {
+        "operand1": 0,
+        "operand2": 0,
+        "operand3": 200,
+        "operand4": -200,
+        "result": -200
+      },
+      {
+        "operand1": 1000000,
+        "operand2": 2000000,
+        "operand3": true,
+        "operand4": false,
+        "result": true
+      }
+    ],
+    "testType": "compare"
+  }
+]

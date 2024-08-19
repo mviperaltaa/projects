@@ -1,0 +1,318 @@
+<style>
+  input {
+    border: solid 1px orange
+  }
+
+  button:disabled {
+    /* outline:white; */
+    color: gray;
+    border: 2px solid gray;
+    /* position: absolute; */
+    bottom: 20px;
+    left: 20%;
+  }
+
+  button {
+    /* outline:white; */
+    border: 2px solid white;
+    /* position: absolute; */
+    bottom: 20px;
+    left: 20%;
+  }
+
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 50%;
+    margin: 2em;
+  }
+
+  .content {
+    flex: 4;
+    margin-left: 4em;
+    margin-right: 4em;
+    margin-top: 0px;
+    max-width: 800px;
+  }
+
+  .tests {
+    flex: 1;
+  }
+
+  #resultsContainer {
+    position: fixed;
+    top: 20%
+  }
+
+  #results {
+    border-left: 3px solid white;
+    padding-left: 5px;
+  }
+
+  .pass {
+    background-color: green
+  }
+
+  .fail {
+    background-color: red
+  }
+
+  .example {
+    padding: 5px;
+    border: 1px solid white
+  }
+</style>
+<div class="row">
+  <div class="column content">
+    <h1>2-1: Expressions and Functions</h1>
+    <h2>Expressions and Operators</h2>
+    <p><b>Expressions</b> are combinations of values and operations that produce a value (and
+      pottentially side effects).</p>
+    <p><b>Operators</b> are commands for the interpreter to complete an operation,
+      often changing a stored value or processing it. An example of an operator is the
+      "+" which can either be a string concatenation operator (combining two strings into
+      a longer string or the same character (plus) which is the addition operator when
+      used with values of type number. </p>
+    <div class="example">
+      <pre class="line-numbers language-javascript"><code id="code">100 // Literal values are expressions
+100 + 10 // Operators form expressions (which produce values) -- 110 here
+"This" + "that" // Concatenation
+console.log(100 + 10)</code></pre>
+      <p><b>Example 1:</b> Examples of expressions involving operators
+      </p>
+    </div>
+    <hr />
+    <h2>Functions, Parameters and Return Values</h2>
+    <p>One way JavaScript functions are declared is through the "function" keyword, followed by a valid identifier
+      (their name), and a list of <em>parameters</em> each separated by a comma. </em></p>
+    <p><b>Parameters</b> are the names for variables in a function declaration.
+      They "receive" values passed in.</p>
+    <p>Functions always <b>return</b> a value; if there is no <code>return</code> statement, they will return
+      <code>undefined</code>
+    </p>
+    <p>In this example, the function below is called every time the button is
+      pressed, and it uses the parsed value of the input field as the parameter.</p>
+    <div class="example">
+      <p><b>Example 2</b>: Function Anatomy</p>
+      <p>In this example, we will see a function declared in <a href="swing:script.js@9:0">script.js, line 9</a></p>
+      <p>The <code>@param</code> within a <code>/** */</code> comment is called <em>jsdoc</em> which indicates the name
+        and function of a parameter.</p>
+      <pre class="line-numbers language-javascript"><code id="code">/** 
+ * EXAMPLE 2: Adds one to the parameter value 
+ * @param parameter 
+ */
+function addOne(parameter) {
+  return parameter + 1
+}</code></pre>
+      Parameter: <input type="text" name="parameter" id="par1"></input><button id="getResults">addOne()</button>
+      Result: <span id="result"></span>
+    </div>
+    <div>
+      <h2>Booleans, Comparisons and the Conditional Operator</h2>
+      <p>One of the most important expressions is the <em>boolean expression</em>,
+        which is any expression that resolves to <code>true</code> or
+        <code>false</code>.
+      </p>
+      <p>This is particularly important as most of the power of using programming
+        is making decisions based on information that is only available when the
+        program is run.</p>
+      <h2>If statement</h2>
+      <p>
+        The <b>if statement</b> consists of the <code class="language-javascript">if</code> <b>keyword</b> followed by a
+        boolean
+        expression inside of a pair of parentheses:
+      <pre class="line-numbers language-javascript"><code id="code">if (true) { 
+          /** Statements if true */ 
+        } else {
+          /** Statements if false */ 
+        }</code></pre>
+      </p>
+      <h2>Testing for Numbers</h2>
+      <p>For example, regular expressions are used to evaluate whether textual input
+        meets a particular criteria. If it does not, then it should display a message
+        informing the user why it isn't acceptable.</p>
+      Numbers only: <input type="text" id="numberInput" onkeyup="checkInput()"></input>
+      <span id="feedback"></span>
+      <p>The code for this function that is called every time the value changes is below.</p>
+      <div class="example">
+        <b>Example 4a: If Version</b>
+        <pre class="line-numbers language-javascript"><code id="code">  /**
+   * Determines if the value of the input element "numberInput" only 
+   * contains numbers. If it does, then a positive message. 
+   */
+  function checkInput() {
+    let inputElement = document.getElementById("numberInput")
+    let outputElement = document.getElementById("feedback")
+    if (/^[0-9]+$/.test(inputElement.value)) {
+      outputElement.innerText = "Yes! Numbers!"
+    } else {
+      outputElement.innerText = "No, it doesn't contain only numbers..."
+    }
+  }</code></pre>
+        <p>The if statement in the example uses the "test" method of the regular
+          expression: <code class="language-javascript">/^[0-9]+$/.test("valueToTest")</code>. The
+          regular expression will only "match" if one or more (+) numbers [0-9] are
+          present and nothing else (the ^ and $ indicate the beginning and ending of
+          the string).</p>
+        <p>The return <em>type</em> of <code>test</code> is a boolean.</p>
+        <p>This value can be used as the boolean expression in an if statement.</p>
+        <p>If that is true, if the regular expression matches, then the element's innerText
+          is set to one value. Otherwise, it is set to another.</p>
+        <p>The relevant HTML includes the attribute "onkeyup" which runs the code. We'll also review those terms:</p>
+        <p>There are three <em>attributes</em>: <code>type</code>, <code>id</code>,
+          <code>onkeyup</code>. The first two have strings that are their value, while
+          the third accepts JavaScript that is evaluated and called when the event
+          occurs.
+        </p>
+        <p><code>onkeyup</code> will get called when the user's keypress (with the input focused)
+          is released, thus ensuring the character has been entered and can be
+          checked.</p>
+        <pre><code class="line-numbers language-html">Numbers only: 
+&lt;input type="text" id="numberInput" onkeyup="checkInput()"&gt;&lt;/input&gt;
+</code></pre>
+      </div>
+      <h2>Conditional Operator "? :"</h2>
+      <p>Another way to return one variable or another based on a boolean expression is the "conditional operator," also
+        called a "ternary operator" since it takes 3 operands.</p>
+      <p>The syntax is <code class="lanugage-javascript">(boolean_expression) ? valueIfTrue : valueIfFalse</code></p>
+      <p>This is particularly useful since you can use a conditional expression anywhere a value is expected, whereas
+        you can only use if statements where a statement can be placed (within a block, ususally)</p>
+      <p>The conditional expression will be particularly useful in React, so it is worth learning how to use it now.</p>
+      <div class="example">
+        <b>Example 4b: Conditional Version</b>
+        <pre class="line-numbers language-javascript"><code id="code">/**
+ * Determines if the value of the input element "numberInput" only 
+ * contains numbers. If it does, then a positive message. 
+ */
+function checkInputAlterantive() {
+  let inputElement = document.getElementById("numberInput")
+  let outputElement = document.getElementById("feedback")
+  let hasNumbers = /^[0-9]+$/.test(inputElement.value)
+  // We can now compress the if statement into a single assignment statement
+  outputElement.innerText = hasNumbers ? "Yes! Numbers!" : "No, it doesn't contain only numbers..."
+  }
+}</code></pre>
+        <p>Note that we reduced the duplication of the variable we are assigning to
+          by using the value produced by the conditional operator as the right hand
+          side of the assignment operator.</p>
+      </div>
+      <p>You may also use comparisons to find information, or to determine whether a
+        certain state has been achieved, such as all information provided in an online
+        form.</p>
+      <p>These exercises will not allow you to proceed until you've passed each test,
+        for instance, by comparing the number of passed tests to the total number of
+        tests.</p>
+    </div>
+    <div class="instructions">
+      <h2>Exercise Instructions</h2>
+      <p>In order to move to the next step, you should resolve each of the tests on the right panel. </p>
+      <p>You do so by modifying the <a href="swing:script.js">script.js</a> file</p>
+    </div>
+
+  </div>
+  <div class="column tests">
+    <div id="resultsContainer">
+      <p id="results"></p>
+      <button id="checkExercise" disabled onclick="nextStep()">Next Step</button>
+    </div>
+  </div>
+</div>
+<!-- <button id="nextExercise" onclick="prevStep()">Previous Step</button> -->
+<script>
+  let currentStep = 0
+  let numPass = 0
+  /**
+   * Determines if the value of the input element "numberInput" only 
+   * contains numbers. If it does, then a positive message. 
+   */
+  function checkInput() {
+    let inputElement = document.getElementById("numberInput")
+    let outputElement = document.getElementById("feedback")
+    if (/^[0-9]+$/.test(inputElement.value)) {
+      outputElement.innerText = "Yes! Numbers!"
+    } else {
+      outputElement.innerText = "No, it doesn't contain only numbers..."
+    }
+  }
+  function printResult(fun, inputs, output) {
+    let res = fun(...inputs)
+    output.innerText = res
+  }
+  // document.addEventListener("load", () => {
+  // let addOne = this["addOne"]
+  document.getElementById("getResults").addEventListener("click", () => {
+    let intValue = parseInt(document.getElementById('par1').value)
+    printResult(addOne, [intValue], document.getElementById('result'))
+  })
+  // })
+  function navigateTutorial(step) {
+    postMessage({
+      command: 'navigateTutorial',
+      value: step
+    }, '*');
+  }
+  function prevStep() {
+    if (numPass === window.config.length) {
+      navigateTutorial(currentStep + 1)
+    }
+  }
+  function nextStep() {
+    if (numPass === window.config.length) {
+      navigateTutorial(currentStep + 1)
+    }
+  }
+  function checkExercise() {
+    let exercise = window.config
+    results = "<tr><th>ID</th><th>Test</th><th>Result</th></tr>"
+    numPass = exercise.length
+    for (var target of exercise) {
+      let pass = true
+      if (target.testType == "type" && this[target.variable] !== undefined) {
+        pass = (typeof this[target.variable] === target.type)
+      } else if (target.testType == "regex" && typeof this[target.variable] === "string") {
+        pass = target.test.test(this[target.variable])
+      } else if (target.testType == "compare") {
+        if (this[target.variable] !== undefined) {
+          for (let test of target.tests) {
+            let resultMine
+            let resultTheirs
+            switch (target.operator) {
+              case "+":
+                resultMine = test.operandLeft + test.operandRight
+                resultTheirs = this[target.variable](test.operandLeft, test.operandRight)
+                pass = pass && resultMine === resultTheirs
+                break
+              case "*":
+                resultMine = test.operandLeft * test.operandRight
+                resultTheirs = this[target.variable](test.operandLeft, test.operandRight)
+                pass = pass && resultMine === resultTheirs
+                break
+              case "<?:":
+                resultMine = test.operand1 < test.operand2 ? test.operand3 : test.operand4
+                resultTheirs = this[target.variable](test.operand1, test.operand2, test.operand3, test.operand4)
+                pass = pass && resultMine === resultTheirs
+                break
+            }
+          }
+        } else {
+          pass = false
+        }
+      } else {
+        pass = false
+      }
+      results += `<tr><td>${target.id}</td><td>${target.variable}</td><td class="${pass ? 'pass' : 'fail'}"''>${pass ? "Pass" : "Fail"}</td></tr>\n`
+      numPass -= !pass ? 1 : 0
+    }
+    results += `<tr><td colspan="2">Total: ${numPass} / ${exercise.length}</td></tr>`
+
+    document.getElementById("results").innerHTML = `<table>${results}</table>`
+    // console.log(numPass == exercise.length)
+    document.getElementById("checkExercise").disabled = numPass !== exercise.length
+    if (numPass === exercise.length) {
+      document.getElementById("checkExercise").classList.add("pass")
+    }
+  }
+  setTimeout(() => checkExercise(), 500)
+</script>

@@ -1,0 +1,51 @@
+<style>
+  #checkExercise {
+    /* outline:white; */
+    border: 2px solid white;
+    position: absolute;
+    bottom: 20px;
+    left:20%;
+  }
+</style>
+<div>
+  <h1>1-1: Values</h1>
+  <p>Values are the information contained in memory.</p>
+  <p>For instance, your name is <span id="name"></span>. This is a sequence of
+  characters called a "string"</p>
+  <p>Strings are important as they represent not only names, but other types of information.</p>
+  <p>For instance, once you provide your age as a string in the source code in <code>script.js</code>, JavaScript
+  can interpret it as a number and then perform calculations on it.</pre></p>
+  <p><span id="birthdayMessage"></span></p>
+  <button id="checkExercise" onclick="checkExercise()">Check Exercise</button>
+  <p id="results"></p>
+  <script>
+    let exercise = [
+      {id: "1-1.1", variable:"myName", type:"string", testType:"type"}, 
+      {id: "1-1.2", variable:"myBirthYear", type:"number", testType:"type"},
+      {id: "1-1.3", variable:"myBirthMonth", type:"number", testType:"type"},
+      {id: "1-1.4", variable:"myBirthDay", type:"number", testType:"type"},
+      {id: "1-1.5", variable:"aStringWithANewline", test:/\n/, testType:"regex"},
+      {id: "1-1.6", variable:"showBirthday", type:"boolean", testType:"type"},
+      {id: "1-1.7", variable:"message", test:/You were born on .* which, locally, is written .*/, testType:"regex"},
+    ]
+
+      function checkExercise() {
+      results = ""
+      numPass = exercise.length
+      for(var target of exercise) {
+        let pass
+        if(target.testType=="type" && this[target.variable] !== undefined) {
+          pass = ( typeof this[target.variable] === target.type)
+        } else if (target.testType=="regex" && typeof this[target.variable] === "string"){
+          pass = target.test.test(this[target.variable])
+        } else {
+          pass = false
+        }
+        results += `${target.variable} : ${pass ? "Pass" : "Fail"}\n`
+        numPass -= !pass ? 1 : 0 
+      }
+      results += `Total: ${numPass} / ${exercise.length}`
+      document.getElementById("results").innerText = results
+    }
+  </script>
+</div>
